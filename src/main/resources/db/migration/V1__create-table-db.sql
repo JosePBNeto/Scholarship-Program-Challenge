@@ -15,9 +15,9 @@ CREATE SCHEMA IF NOT EXISTS `db_scholarship` DEFAULT CHARACTER SET utf8 ;
 USE `db_scholarship` ;
 
 -- -----------------------------------------------------
--- Table `db_scholarship`.`Classe`
+-- Table `db_scholarship`.`Class`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `db_scholarship`.`Classe` (
+CREATE TABLE IF NOT EXISTS `db_scholarship`.`Class` (
   `id` BIGINT NOT NULL,
   `name` VARCHAR(200) NULL,
   `status` VARCHAR(200) NOT NULL,
@@ -33,12 +33,12 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `db_scholarship`.`Squad` (
   `id` BIGINT NOT NULL,
   `name` VARCHAR(200) NULL,
-  `Classe_id` BIGINT NOT NULL,
+  `Class_id` BIGINT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_Squad_Classe1_idx` (`Classe_id` ASC) VISIBLE,
-  CONSTRAINT `fk_Squad_Classe1`
-    FOREIGN KEY (`Classe_id`)
-    REFERENCES `db_scholarship`.`Classe` (`id`)
+  INDEX `fk_Squad_Class1_idx` (`Class_id` ASC) VISIBLE,
+  CONSTRAINT `fk_Squad_Class1`
+    FOREIGN KEY (`Class_id`)
+    REFERENCES `db_scholarship`.`Class` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -54,29 +54,29 @@ CREATE TABLE IF NOT EXISTS `db_scholarship`.`Student` (
   `number` VARCHAR(20) NULL,
   `date_of_birth` DATE NULL,
   `Squad_id` BIGINT NOT NULL,
-  `Classe_id` BIGINT NOT NULL,
+  `Class_id` BIGINT NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
   UNIQUE INDEX `number_UNIQUE` (`number` ASC) VISIBLE,
   INDEX `fk_Student_Squad_idx` (`Squad_id` ASC) VISIBLE,
-  INDEX `fk_Student_Classe1_idx` (`Classe_id` ASC) VISIBLE,
+  INDEX `fk_Student_Class1_idx` (`Class_id` ASC) VISIBLE,
   CONSTRAINT `fk_Student_Squad`
     FOREIGN KEY (`Squad_id`)
     REFERENCES `db_scholarship`.`Squad` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Student_Classe1`
-    FOREIGN KEY (`Classe_id`)
-    REFERENCES `db_scholarship`.`Classe` (`id`)
+  CONSTRAINT `fk_Student_Class1`
+    FOREIGN KEY (`Class_id`)
+    REFERENCES `db_scholarship`.`Class` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `db_scholarship`.`Organizor`
+-- Table `db_scholarship`.`Organizers`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `db_scholarship`.`Organizor` (
+CREATE TABLE IF NOT EXISTS `db_scholarship`.`Organizer` (
   `id` BIGINT NOT NULL,
   `name` VARCHAR(200) NOT NULL,
   `email` VARCHAR(200) NOT NULL,
@@ -87,22 +87,22 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `db_scholarship`.`Classe_organizors`
+-- Table `db_scholarship`.`Class_organizers`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `db_scholarship`.`Classe_organizors` (
-  `Classe_id` BIGINT NOT NULL,
-  `Organizor_id` BIGINT NOT NULL,
-  PRIMARY KEY (`Classe_id`, `Organizor_id`),
-  INDEX `fk_Classe_has_Organizor_Organizor1_idx` (`Organizor_id` ASC) VISIBLE,
-  INDEX `fk_Classe_has_Organizor_Classe1_idx` (`Classe_id` ASC) VISIBLE,
-  CONSTRAINT `fk_Classe_has_Organizor_Classe1`
-    FOREIGN KEY (`Classe_id`)
-    REFERENCES `db_scholarship`.`Classe` (`id`)
+CREATE TABLE IF NOT EXISTS `db_scholarship`.`Class-organizers` (
+  `Class_id` BIGINT NOT NULL,
+  `Organizer_id` BIGINT NOT NULL,
+  PRIMARY KEY (`Class_id`, `Organizer_id`),
+  INDEX `fk_Class_has_Organizer_Organizer1_idx` (`Organizer_id` ASC) VISIBLE,
+  INDEX `fk_Class_has_Organizer_Class1_idx` (`Class_id` ASC) VISIBLE,
+  CONSTRAINT `fk_Class_has_Organizer_Class1`
+    FOREIGN KEY (`Class_id`)
+    REFERENCES `db_scholarship`.`Class` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Classe_has_Organizor_Organizor1`
-    FOREIGN KEY (`Organizor_id`)
-    REFERENCES `db_scholarship`.`Organizor` (`id`)
+  CONSTRAINT `fk_Class_has_Organizer_Organizer1`
+    FOREIGN KEY (`Organizer_id`)
+    REFERENCES `db_scholarship`.`Organizer` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
