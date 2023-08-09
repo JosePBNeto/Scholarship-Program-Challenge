@@ -17,10 +17,11 @@ public class ClassController {
 
     @Autowired
     private ClassService classService;
+
     @GetMapping
     public ResponseEntity<List<ClassRecord>> getAllClasses() {
-        List<ClassRecord> classEntities = classService.getAllClasses();
-       return new ResponseEntity<>(classEntities, HttpStatus.OK);
+        List<ClassRecord> classRecordList = classService.getAllClasses();
+       return new ResponseEntity<>(classRecordList, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
