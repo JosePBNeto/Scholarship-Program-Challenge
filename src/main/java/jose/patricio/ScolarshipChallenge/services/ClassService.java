@@ -13,6 +13,6 @@ public interface ClassService {
 
     ClassRecord getClassById(Long id);
 
-    ClassEntity createClass(ClassEntity classEntityToCreate);
+    ClassRecord createClass(ClassRecord classRecordToCreate);
 
 }

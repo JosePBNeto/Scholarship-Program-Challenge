@@ -41,8 +41,13 @@ public class ClassServiceImpl implements ClassService {
         }
     }
 
-    public ClassEntity createClass(ClassEntity classEntityToCreate) {
-        return classRepository.save(classEntityToCreate);
+    public ClassRecord createClass(ClassRecord classRecordToCreate) {
+        ClassEntity classEntity = new ClassEntity(classRecordToCreate.id(), classRecordToCreate.name(), classRecordToCreate.status(),
+                                  classRecordToCreate.start_date(),classRecordToCreate.end_date());
+        classRepository.save(classEntity);
+
+        return new ClassRecord(classEntity.getId(), classEntity.getName(), classEntity.getStatus(),
+                   classEntity.getStart_date(), classEntity.getEnd_date());
 
     }
 
