@@ -63,7 +63,8 @@ public class ClassServiceImpl implements ClassService {
                 classEntity.getName(),
                 classEntity.getStatus(),
                 classEntity.getStart_date(),
-                classEntity.getEnd_date()
+                classEntity.getEnd_date(),
+                classEntity.getOrganizers()
         );
     }
     private ClassEntity mapToClassEntity(ClassRecord classRecord) {
@@ -72,7 +73,8 @@ public class ClassServiceImpl implements ClassService {
                 classRecord.name(),
                 classRecord.status(),
                 classRecord.start_date(),
-                classRecord.end_date()
+                classRecord.end_date(),
+                classRecord.organizers()
         );
     }
     private ClassEntity updateAndSave(ClassEntity existingClassEntity, ClassRecord updatedClassRecord) {

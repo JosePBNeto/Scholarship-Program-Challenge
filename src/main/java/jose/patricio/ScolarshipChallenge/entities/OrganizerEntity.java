@@ -1,15 +1,17 @@
 package jose.patricio.ScolarshipChallenge.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+import java.util.List;
+
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "Organizer")
+@Table(name = "organizer")
 public class OrganizerEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,5 +22,9 @@ public class OrganizerEntity {
 
     @Enumerated(value = EnumType.STRING)
     private OrganizerRole role;
+
+    @ManyToMany(mappedBy = "organizers")
+    @JsonBackReference
+    private List<ClassEntity> classes;
 
 }

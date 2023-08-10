@@ -1,18 +1,18 @@
 package jose.patricio.ScolarshipChallenge.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
+import lombok.*;
 
 import java.util.Date;
+import java.util.List;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "class")
 @Entity
+@Table(name = "class")
 public class ClassEntity {
 
     @Id
@@ -27,5 +27,15 @@ public class ClassEntity {
     private Date start_date;
     @Temporal(TemporalType.DATE)
     private Date end_date;
+
+    @ManyToMany
+    @JoinTable(name = "class-organizers",
+            joinColumns = @JoinColumn(name = "Class_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "Organizer_id", referencedColumnName = "id"))
+    @JsonManagedReference
+    private List<OrganizerEntity> organizers;
+
+
+
 
 }
