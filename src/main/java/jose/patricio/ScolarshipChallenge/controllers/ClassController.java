@@ -25,14 +25,28 @@ public class ClassController {
     }
 
     @GetMapping("/{id}")
-    public ClassRecord getClassById(@PathVariable Long id) {
-        return classService.getClassById(id);
+    public ResponseEntity<ClassRecord> getClassById(@PathVariable Long id) {
+        ClassRecord classById = classService.getClassById(id);
+        return new ResponseEntity<>(classById, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<ClassRecord> postCar(@RequestBody ClassRecord classRecord) {
+    public ResponseEntity<ClassRecord> postClass(@RequestBody ClassRecord classRecord) {
         return ResponseEntity.created(null).body(classService.createClass(classRecord));
     }
+
+    @PutMapping("/{id}")
+    ResponseEntity<ClassRecord> updateClass(@PathVariable Long id, @RequestBody ClassRecord classRecord) {
+        ClassRecord classRecordRecived = classService.updateClass(id, classRecord);
+        return new ResponseEntity<>(classRecordRecived, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteClass(@PathVariable Long id) {
+        classService.deleteClass(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
 
 
 

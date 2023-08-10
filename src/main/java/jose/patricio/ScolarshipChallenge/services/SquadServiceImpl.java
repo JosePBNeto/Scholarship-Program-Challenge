@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SquadServiceImpl implements  SquadService {
@@ -20,20 +21,17 @@ public class SquadServiceImpl implements  SquadService {
     }
 
     public List<SquadRecord> getAllSquads() {
-        List<SquadRecord> squadRecordList = new ArrayList<>();
-        List<SquadEntity> squadEntityList = squadRepository.findAll();
-        for (SquadEntity squadEntity : squadEntityList) {
-            squadRecordList.add(new SquadRecord(squadEntity.getId(), squadEntity.getName(), squadEntity.getClassEntity()));
-        }
-        return squadRecordList;
+        return squadRepository.findAll().stream()
+                .map(this::mapToSquadRecord)
+                .collect(Collectors.toList());
     }
 
 
-    public SquadRecord createSquad(SquadRecord squadRecord) {
-        SquadEntity squadEntity = new SquadEntity(squadRecord.id(), squadRecord.name(), squadRecord.classEntity());
-        squadRepository.save(squadEntity);
+    public SquadRecord createSquad(SquadRecord squadRecordToCreate) {
+        SquadEntity squadEntity = mapToSquadEntity(squadRecordToCreate);
+        squadEntity = squadRepository.save(squadEntity);
 
-        return new SquadRecord(squadEntity.getId(), squadEntity.getName(), squadEntity.getClassEntity());
+        return mapToSquadRecord(squadEntity);
 
     }
 
@@ -41,5 +39,21 @@ public class SquadServiceImpl implements  SquadService {
     public SquadRecord getSquadById(Long id) {
         return null;
     }
+
+    private SquadEntity mapToSquadEntity(SquadRecord squadRecord) {
+        return new SquadEntity(
+             squadRecord.id(),
+             squadRecord.name(),
+             squadRecord.classEntity()
+        );
+    }
+    private SquadRecord mapToSquadRecord(SquadEntity squadEntity){
+        return new SquadRecord(
+                squadEntity.getId(),
+                squadEntity.getName(),
+                squadEntity.getClassEntity()
+        );
+    }
+
 
 }

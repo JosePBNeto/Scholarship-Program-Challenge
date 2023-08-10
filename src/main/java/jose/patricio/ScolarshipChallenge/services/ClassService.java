@@ -14,4 +14,6 @@ public interface ClassService {
 
     ClassRecord createClass(ClassRecord classRecordToCreate);
 
+    ClassRecord updateClass(Long id, ClassRecord classRecord);
+    void deleteClass(Long id);
 }

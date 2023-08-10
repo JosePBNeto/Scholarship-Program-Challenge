@@ -6,9 +6,10 @@ import jose.patricio.ScolarshipChallenge.repositories.ClassRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ClassServiceImpl implements ClassService {
@@ -20,36 +21,69 @@ public class ClassServiceImpl implements ClassService {
     }
 
     public List<ClassRecord> getAllClasses() {
-        List<ClassRecord> classRecordList = new ArrayList<>();
-        List<ClassEntity> classEntityList = classRepository.findAll();
-        for (ClassEntity classEntity : classEntityList) {
-            classRecordList.add(new ClassRecord(classEntity.getId(), classEntity.getName(), classEntity.getStatus(),
-                    classEntity.getStart_date(), classEntity.getEnd_date()));
-        }
-        return classRecordList;
+        return classRepository.findAll().stream()
+                .map(this::mapToClassRecord)
+                .collect(Collectors.toList());
     }
 
     public ClassRecord getClassById(Long id) {
-        Optional<ClassEntity> byId = classRepository.findById(id);
-        if (byId.isPresent()){
-            ClassEntity classEntity = byId.get();
-            return new ClassRecord(classEntity.getId(), classEntity.getName(), classEntity.getStatus(),
-                                classEntity.getStart_date(), classEntity.getEnd_date());
-        }
-       else {
-           throw new RuntimeException("TODO");
-        }
+        return classRepository.findById(id)
+                .map(this::mapToClassRecord)
+                .orElseThrow(() -> new RuntimeException("TODO")); // Replace "TODO" with a more appropriate exception
     }
 
     public ClassRecord createClass(ClassRecord classRecordToCreate) {
-        ClassEntity classEntity = new ClassEntity(classRecordToCreate.id(), classRecordToCreate.name(), classRecordToCreate.status(),
-                                  classRecordToCreate.start_date(),classRecordToCreate.end_date());
-        classRepository.save(classEntity);
+        ClassEntity classEntity = mapToClassEntity(classRecordToCreate);
+        classEntity = classRepository.save(classEntity);
 
-        return new ClassRecord(classEntity.getId(), classEntity.getName(), classEntity.getStatus(),
-                   classEntity.getStart_date(), classEntity.getEnd_date());
-
+        return mapToClassRecord(classEntity);
     }
+
+
+    public ClassRecord updateClass(Long id, ClassRecord updatedClassRecord) {
+        return classRepository.findById(id)
+                .map(existingClassEntity -> updateAndSave(existingClassEntity, updatedClassRecord))
+                .map(this::mapToClassRecord)
+                .orElseThrow(() -> new RuntimeException("Class not found")); // TODO: Replace with a more appropriate exception
+    }
+
+    public void deleteClass(Long id) {
+        classRepository.findById(id)
+                .ifPresentOrElse(
+                        classEntity -> classRepository.delete(classEntity),
+                        () -> {
+                            throw new RuntimeException("Class not found"); //TODO: Replace with a more appropriate exception
+                        }
+                );
+    }
+
+    private ClassRecord mapToClassRecord(ClassEntity classEntity) {
+        return new ClassRecord(
+                classEntity.getId(),
+                classEntity.getName(),
+                classEntity.getStatus(),
+                classEntity.getStart_date(),
+                classEntity.getEnd_date()
+        );
+    }
+    private ClassEntity mapToClassEntity(ClassRecord classRecord) {
+        return new ClassEntity(
+                classRecord.id(),
+                classRecord.name(),
+                classRecord.status(),
+                classRecord.start_date(),
+                classRecord.end_date()
+        );
+    }
+    private ClassEntity updateAndSave(ClassEntity existingClassEntity, ClassRecord updatedClassRecord) {
+        existingClassEntity.setName(updatedClassRecord.name());
+        existingClassEntity.setStatus(updatedClassRecord.status());
+        existingClassEntity.setStart_date(updatedClassRecord.start_date());
+        existingClassEntity.setEnd_date(updatedClassRecord.end_date());
+
+        return classRepository.save(existingClassEntity);
+    }
+
 
 
 }
