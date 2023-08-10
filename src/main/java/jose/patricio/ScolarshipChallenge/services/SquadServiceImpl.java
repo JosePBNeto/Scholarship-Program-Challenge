@@ -37,7 +37,9 @@ public class SquadServiceImpl implements  SquadService {
 
     @Override
     public SquadRecord getSquadById(Long id) {
-        return null;
+        return squadRepository.findById(id)
+                .map(this::mapToSquadRecord)
+                .orElseThrow(() -> new RuntimeException("TODO")); // Replace "TODO" with a more appropriate exception
     }
 
     private SquadEntity mapToSquadEntity(SquadRecord squadRecord) {

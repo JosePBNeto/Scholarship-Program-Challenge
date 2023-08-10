@@ -29,6 +29,11 @@ public class SquadController {
         System.out.println(squadRecord);
         return ResponseEntity.created(null).body(squadService.createSquad(squadRecord));
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<SquadRecord> getSquadById(@PathVariable Long id) {
+        SquadRecord squadById = squadService.getSquadById(id);
+        return new ResponseEntity<>(squadById, HttpStatus.OK);
+    }
 
 
 }
