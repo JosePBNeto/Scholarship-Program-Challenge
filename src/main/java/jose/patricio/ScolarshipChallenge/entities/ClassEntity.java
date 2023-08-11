@@ -1,5 +1,6 @@
 package jose.patricio.ScolarshipChallenge.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -37,6 +38,9 @@ public class ClassEntity {
     private List<OrganizerEntity> organizers;
 
 
+    @OneToMany(mappedBy = "classEntity")
+    @JsonIgnore
+    private List<SquadEntity> squadEntities;
 
 
 }
