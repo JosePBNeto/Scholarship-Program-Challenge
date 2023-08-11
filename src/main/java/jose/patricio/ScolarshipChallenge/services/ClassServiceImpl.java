@@ -5,10 +5,7 @@ import jose.patricio.ScolarshipChallenge.entities.ClassEntity;
 import jose.patricio.ScolarshipChallenge.repositories.ClassRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -65,7 +62,8 @@ public class ClassServiceImpl implements ClassService {
                 classEntity.getStart_date(),
                 classEntity.getEnd_date(),
                 classEntity.getOrganizers(),
-                classEntity.getSquadEntities()
+                classEntity.getSquadEntities(),
+                classEntity.getStudentEntities()
         );
     }
     private ClassEntity mapToClassEntity(ClassRecord classRecord) {
@@ -76,7 +74,9 @@ public class ClassServiceImpl implements ClassService {
                 classRecord.start_date(),
                 classRecord.end_date(),
                 classRecord.organizers(),
-                classRecord.squadEntities()
+                classRecord.squadEntities(),
+                classRecord.studentEntities()
+
         );
     }
     private ClassEntity updateAndSave(ClassEntity existingClassEntity, ClassRecord updatedClassRecord) {

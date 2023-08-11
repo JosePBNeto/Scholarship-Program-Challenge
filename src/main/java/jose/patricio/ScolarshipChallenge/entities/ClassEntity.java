@@ -42,5 +42,10 @@ public class ClassEntity {
     @JsonIgnore
     private List<SquadEntity> squadEntities;
 
+    @OneToMany(mappedBy = "classEntity")
+    @JsonIgnore
+    private List<StudentEntity> studentEntities;
+
+
 
 }

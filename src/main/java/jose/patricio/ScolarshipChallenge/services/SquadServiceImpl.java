@@ -46,14 +46,16 @@ public class SquadServiceImpl implements  SquadService {
         return new SquadEntity(
              squadRecord.id(),
              squadRecord.name(),
-             squadRecord.classEntity()
+             squadRecord.classEntity(), squadRecord.studentEntities()
+
         );
     }
     private SquadRecord mapToSquadRecord(SquadEntity squadEntity){
         return new SquadRecord(
                 squadEntity.getId(),
                 squadEntity.getName(),
-                squadEntity.getClassEntity()
+                squadEntity.getClassEntity(),
+                squadEntity.getStudentEntities()
         );
     }
 

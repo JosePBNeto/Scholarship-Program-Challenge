@@ -2,7 +2,6 @@ package jose.patricio.ScolarshipChallenge.controllers;
 
 
 import jose.patricio.ScolarshipChallenge.dtos.ClassRecord;
-import jose.patricio.ScolarshipChallenge.entities.ClassEntity;
 import jose.patricio.ScolarshipChallenge.services.ClassService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

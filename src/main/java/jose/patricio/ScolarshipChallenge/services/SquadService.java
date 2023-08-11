@@ -1,7 +1,6 @@
 package jose.patricio.ScolarshipChallenge.services;
 
 import jose.patricio.ScolarshipChallenge.dtos.SquadRecord;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 

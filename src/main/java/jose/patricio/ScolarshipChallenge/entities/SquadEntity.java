@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -22,5 +24,9 @@ public class SquadEntity {
     @JoinColumn(name = "Class_id")
     @JsonIgnore
     private ClassEntity classEntity;
+
+    @OneToMany(mappedBy = "squadEntity")
+    @JsonIgnore
+    private List<StudentEntity> studentEntities;
 
 }
