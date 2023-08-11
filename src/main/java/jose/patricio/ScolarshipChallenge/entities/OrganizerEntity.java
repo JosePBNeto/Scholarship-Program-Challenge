@@ -1,6 +1,7 @@
 package jose.patricio.ScolarshipChallenge.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,7 +25,7 @@ public class OrganizerEntity {
     private OrganizerRole role;
 
     @ManyToMany(mappedBy = "organizers")
-    @JsonBackReference
+    @JsonIgnoreProperties("organizers")
     private List<ClassEntity> classes;
 
 }

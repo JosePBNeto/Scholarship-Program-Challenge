@@ -1,5 +1,6 @@
 package jose.patricio.ScolarshipChallenge.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -32,7 +33,7 @@ public class ClassEntity {
     @JoinTable(name = "class-organizers",
             joinColumns = @JoinColumn(name = "Class_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "Organizer_id", referencedColumnName = "id"))
-    @JsonManagedReference
+    @JsonIgnoreProperties("classes")
     private List<OrganizerEntity> organizers;
 
 
