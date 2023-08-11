@@ -39,7 +39,7 @@ public class ClassServiceImpl implements ClassService {
 
     public ClassRecord updateClass(Long id, ClassRecord updatedClassRecord) {
         return classRepository.findById(id)
-                .map(existingClassEntity -> updateAndSave(existingClassEntity, updatedClassRecord))
+                .map(existingClassEntity -> updateAndSaveClassEntity(existingClassEntity, updatedClassRecord))
                 .map(this::mapToClassRecord)
                 .orElseThrow(() -> new RuntimeException("Class not found")); // TODO: Replace with a more appropriate exception
     }
@@ -79,11 +79,14 @@ public class ClassServiceImpl implements ClassService {
 
         );
     }
-    private ClassEntity updateAndSave(ClassEntity existingClassEntity, ClassRecord updatedClassRecord) {
+    private ClassEntity updateAndSaveClassEntity(ClassEntity existingClassEntity, ClassRecord updatedClassRecord) {
         existingClassEntity.setName(updatedClassRecord.name());
         existingClassEntity.setStatus(updatedClassRecord.status());
         existingClassEntity.setStart_date(updatedClassRecord.start_date());
         existingClassEntity.setEnd_date(updatedClassRecord.end_date());
+        existingClassEntity.setOrganizers(updatedClassRecord.organizers());
+        existingClassEntity.setSquadEntities(updatedClassRecord.squadEntities());
+        existingClassEntity.setStudentEntities(updatedClassRecord.studentEntities());
 
         return classRepository.save(existingClassEntity);
     }
