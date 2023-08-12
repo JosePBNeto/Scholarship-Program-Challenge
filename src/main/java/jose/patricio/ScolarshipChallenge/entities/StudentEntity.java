@@ -1,5 +1,6 @@
 package jose.patricio.ScolarshipChallenge.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,5 +32,6 @@ public class StudentEntity {
 
     @ManyToOne
     @JoinColumn(name = "Class_id")
+    @JsonIgnore
     private ClassEntity classEntity;
 }

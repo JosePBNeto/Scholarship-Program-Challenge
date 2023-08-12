@@ -46,4 +46,10 @@ public class StudentController {
         return new ResponseEntity<>(studentRecordReceived, HttpStatus.OK);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteStudent(@PathVariable Long id) {
+        studentService.deleteStudent(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
 }

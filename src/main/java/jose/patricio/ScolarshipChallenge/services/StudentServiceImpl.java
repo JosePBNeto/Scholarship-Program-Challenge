@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentServiceImpl implements StudentService{
@@ -21,27 +22,40 @@ public class StudentServiceImpl implements StudentService{
 
     @Override
     public List<StudentRecord> getAllStudents() {
-        return null;
+        return studentRepository.findAll().stream()
+                .map(this::mapToStudentRecord)
+                .collect(Collectors.toList());
     }
 
     @Override
     public StudentRecord getStudentsById(Long id) {
-        return null;
+        return studentRepository.findById(id)
+                .map(this::mapToStudentRecord)
+                .orElseThrow(() -> new RuntimeException("TODO")); // Replace "TODO" with a more appropriate exception;
     }
 
     @Override
     public StudentRecord createStudent(StudentRecord studentRecordToCreate) {
-        return null;
+        StudentEntity studentEntity = mapToStudentEntity(studentRecordToCreate);
+        studentEntity = studentRepository.save(studentEntity);
+
+        return mapToStudentRecord(studentEntity);
     }
 
     @Override
-    public StudentRecord updateStudent(Long id, StudentRecord studentRecord) {
-        return null;
+    public StudentRecord updateStudent(Long id, StudentRecord updatedStudentRecord) {
+        return studentRepository.findById(id)
+                .map(existingStudentEntity -> updateAndSaveStudentEntity(existingStudentEntity, updatedStudentRecord))
+                .map(this::mapToStudentRecord)
+                .orElseThrow(() -> new RuntimeException("Student Not found"));
     }
 
     @Override
     public void deleteStudent(Long id) {
-
+        studentRepository.findById(id)
+                .ifPresentOrElse(studentEntity -> studentRepository.delete(studentEntity),
+                        () -> {throw new RuntimeException("Student not found");
+                });
     }
 
     private StudentRecord mapToStudentRecord(StudentEntity studentEntity) {
