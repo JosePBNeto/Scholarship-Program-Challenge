@@ -1,6 +1,7 @@
 package jose.patricio.ScolarshipChallenge.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
@@ -15,7 +16,7 @@ import java.util.List;
 @Table(name = "organizer")
 public class OrganizerEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String name;
@@ -26,6 +27,7 @@ public class OrganizerEntity {
 
     @ManyToMany(mappedBy = "organizers")
     @JsonIgnoreProperties("organizers")
+    @JsonIgnore
     private List<ClassEntity> classes;
 
 }
