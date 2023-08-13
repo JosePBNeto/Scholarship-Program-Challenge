@@ -47,6 +47,12 @@ public class ClassController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @PostMapping("/{id}/start")
+    public ResponseEntity<ClassRecord> startClass(@PathVariable Long id) {
+        ClassRecord startedClassRecord = classService.startClass(id);
+        return new ResponseEntity<>(startedClassRecord, HttpStatus.OK);
+    }
+
 
 
 

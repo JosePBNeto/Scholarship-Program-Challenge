@@ -1,12 +1,15 @@
 package jose.patricio.ScolarshipChallenge.services;
 
+import jose.patricio.ScolarshipChallenge.advices.ClassArgumentException;
 import jose.patricio.ScolarshipChallenge.advices.IdNotFoundException;
 import jose.patricio.ScolarshipChallenge.dtos.ClassRecord;
 import jose.patricio.ScolarshipChallenge.entities.ClassEntity;
+import jose.patricio.ScolarshipChallenge.entities.ClassStatus;
 import jose.patricio.ScolarshipChallenge.repositories.ClassRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Service
@@ -43,6 +46,8 @@ public class ClassServiceImpl implements ClassService {
                 .map(existingClassEntity -> updateAndSaveClassEntity(existingClassEntity, updatedClassRecord))
                 .map(this::mapToClassRecord)
                 .orElseThrow(() -> new IdNotFoundException("Class Id not found"));
+
+
     }
 
     public void deleteClass(Long id) {
@@ -53,6 +58,24 @@ public class ClassServiceImpl implements ClassService {
                             throw new IdNotFoundException("Squad Id not found");
                         }
                 );
+    }
+
+    @Override
+    public ClassRecord startClass(Long id) {
+        ClassEntity existingClassEntity = classRepository.findById(id)
+                .orElseThrow(() -> new IdNotFoundException("Class Id not found"));
+
+        if (existingClassEntity.getStatus().equals(ClassStatus.STARTED) || existingClassEntity.getStatus().equals(ClassStatus.FINISHED)) {
+            throw new ClassArgumentException("Class has already "+ existingClassEntity.getStatus());
+        }
+
+        // Validate the number of students before starting the class
+        if (existingClassEntity.getStudentEntities().size() < 15 || existingClassEntity.getStudentEntities().size() > 30) {
+            throw new ClassArgumentException("Number of students must be between 15 and 30 to start the class.");
+        }
+
+        existingClassEntity.setStatus(ClassStatus.STARTED);
+        return mapToClassRecord(classRepository.save(existingClassEntity));
     }
 
     private ClassRecord mapToClassRecord(ClassEntity classEntity) {

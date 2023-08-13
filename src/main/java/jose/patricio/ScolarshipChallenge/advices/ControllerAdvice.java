@@ -33,5 +33,11 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
         return new ResponseEntity(customErrorDetails, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(ClassArgumentException.class)
+    public ResponseEntity<ErrorDetails> handleClassException (ClassArgumentException ex, WebRequest request) {
+        customErrorDetails = new CustomErrorDetails(LocalDateTime.now(), ex.getMessage(), request.getDescription(false));
+        return new ResponseEntity(customErrorDetails, HttpStatus.BAD_REQUEST);
+    }
+
 
 }
