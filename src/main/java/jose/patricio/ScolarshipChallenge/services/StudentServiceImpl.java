@@ -87,8 +87,8 @@ public class StudentServiceImpl implements StudentService{
         existingStudentEntity.setEmail(updatedStudentRecord.email());
         existingStudentEntity.setNumber(updatedStudentRecord.number());
         existingStudentEntity.setDateOfBirth(updatedStudentRecord.dateOfBirth());
-        existingStudentEntity.setSquadEntity(existingStudentEntity.getSquadEntity());
-        existingStudentEntity.setClassEntity(existingStudentEntity.getClassEntity());
+        existingStudentEntity.setSquadEntity(updatedStudentRecord.squadEntity());
+        existingStudentEntity.setClassEntity(updatedStudentRecord.classEntity());
 
         return studentRepository.save(existingStudentEntity);
 

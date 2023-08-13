@@ -35,6 +35,7 @@ public class ClassEntity {
             joinColumns = @JoinColumn(name = "Class_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "Organizer_id", referencedColumnName = "id"))
     @JsonIgnoreProperties("classes")
+    @JsonIgnore
     private List<OrganizerEntity> organizers;
 
 
