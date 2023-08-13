@@ -1,5 +1,6 @@
 package jose.patricio.ScolarshipChallenge.controllers;
 
+import jakarta.validation.Valid;
 import jose.patricio.ScolarshipChallenge.dtos.ClassRecord;
 import jose.patricio.ScolarshipChallenge.dtos.OrganizerRecord;
 import jose.patricio.ScolarshipChallenge.repositories.OrganizerRepository;
@@ -35,11 +36,11 @@ public class OrganizerController {
     }
 
     @PostMapping
-    public ResponseEntity<OrganizerRecord> postOrganizer(@RequestBody OrganizerRecord organizerRecord) {
+    public ResponseEntity<OrganizerRecord> postOrganizer(@Valid @RequestBody OrganizerRecord organizerRecord) {
         return ResponseEntity.created(null).body(organizerService.createOrganizer(organizerRecord));
     }
     @PutMapping("/{id}")
-    ResponseEntity<OrganizerRecord> updateOrganizer(@PathVariable Long id, @RequestBody OrganizerRecord organizerRecord) {
+    ResponseEntity<OrganizerRecord> updateOrganizer(@PathVariable Long id, @Valid @RequestBody OrganizerRecord organizerRecord) {
         OrganizerRecord organizerRecordReceived = organizerService.updateOrganizer(id, organizerRecord);
         return new ResponseEntity<>(organizerRecordReceived, HttpStatus.OK);
     }

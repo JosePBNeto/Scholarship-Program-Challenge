@@ -1,5 +1,6 @@
 package jose.patricio.ScolarshipChallenge.services;
 
+import jose.patricio.ScolarshipChallenge.advices.IdNotFoundException;
 import jose.patricio.ScolarshipChallenge.dtos.StudentRecord;
 import jose.patricio.ScolarshipChallenge.entities.ClassEntity;
 import jose.patricio.ScolarshipChallenge.entities.StudentEntity;
@@ -24,14 +25,14 @@ public class StudentServiceImpl implements StudentService{
     public List<StudentRecord> getAllStudents() {
         return studentRepository.findAll().stream()
                 .map(this::mapToStudentRecord)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
     public StudentRecord getStudentsById(Long id) {
         return studentRepository.findById(id)
                 .map(this::mapToStudentRecord)
-                .orElseThrow(() -> new RuntimeException("TODO")); // Replace "TODO" with a more appropriate exception;
+                .orElseThrow(() -> new IdNotFoundException("Student Id not found"));
     }
 
     @Override
@@ -47,14 +48,14 @@ public class StudentServiceImpl implements StudentService{
         return studentRepository.findById(id)
                 .map(existingStudentEntity -> updateAndSaveStudentEntity(existingStudentEntity, updatedStudentRecord))
                 .map(this::mapToStudentRecord)
-                .orElseThrow(() -> new RuntimeException("Student Not found"));
+                .orElseThrow(() -> new IdNotFoundException("Student Id not found"));
     }
 
     @Override
     public void deleteStudent(Long id) {
         studentRepository.findById(id)
                 .ifPresentOrElse(studentEntity -> studentRepository.delete(studentEntity),
-                        () -> {throw new RuntimeException("Student not found");
+                        () -> {throw new IdNotFoundException("Student Id not found");
                 });
     }
 

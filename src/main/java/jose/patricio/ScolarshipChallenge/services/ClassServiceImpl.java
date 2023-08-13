@@ -1,5 +1,6 @@
 package jose.patricio.ScolarshipChallenge.services;
 
+import jose.patricio.ScolarshipChallenge.advices.IdNotFoundException;
 import jose.patricio.ScolarshipChallenge.dtos.ClassRecord;
 import jose.patricio.ScolarshipChallenge.entities.ClassEntity;
 import jose.patricio.ScolarshipChallenge.repositories.ClassRepository;
@@ -20,13 +21,13 @@ public class ClassServiceImpl implements ClassService {
     public List<ClassRecord> getAllClasses() {
         return classRepository.findAll().stream()
                 .map(this::mapToClassRecord)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public ClassRecord getClassById(Long id) {
         return classRepository.findById(id)
                 .map(this::mapToClassRecord)
-                .orElseThrow(() -> new RuntimeException("TODO")); // Replace "TODO" with a more appropriate exception
+                .orElseThrow(() -> new IdNotFoundException("Class Id not found"));
     }
 
     public ClassRecord createClass(ClassRecord classRecordToCreate) {
@@ -41,7 +42,7 @@ public class ClassServiceImpl implements ClassService {
         return classRepository.findById(id)
                 .map(existingClassEntity -> updateAndSaveClassEntity(existingClassEntity, updatedClassRecord))
                 .map(this::mapToClassRecord)
-                .orElseThrow(() -> new RuntimeException("Class not found")); // TODO: Replace with a more appropriate exception
+                .orElseThrow(() -> new IdNotFoundException("Class Id not found"));
     }
 
     public void deleteClass(Long id) {
@@ -49,7 +50,7 @@ public class ClassServiceImpl implements ClassService {
                 .ifPresentOrElse(
                         classEntity -> classRepository.delete(classEntity),
                         () -> {
-                            throw new RuntimeException("Class not found"); //TODO: Replace with a more appropriate exception
+                            throw new IdNotFoundException("Squad Id not found");
                         }
                 );
     }

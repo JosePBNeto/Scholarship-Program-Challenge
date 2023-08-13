@@ -1,5 +1,6 @@
 package jose.patricio.ScolarshipChallenge.controllers;
 
+import jakarta.validation.Valid;
 import jose.patricio.ScolarshipChallenge.dtos.ClassRecord;
 import jose.patricio.ScolarshipChallenge.dtos.StudentRecord;
 import jose.patricio.ScolarshipChallenge.repositories.StudentRepository;
@@ -36,12 +37,12 @@ public class StudentController {
     }
 
     @PostMapping
-    public ResponseEntity<StudentRecord> postStudent(@RequestBody StudentRecord studentRecord) {
+    public ResponseEntity<StudentRecord> postStudent(@Valid @RequestBody StudentRecord studentRecord) {
         return ResponseEntity.created(null).body(studentService.createStudent(studentRecord));
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<StudentRecord> updateStudent(@PathVariable Long id, @RequestBody StudentRecord studentRecord) {
+    ResponseEntity<StudentRecord> updateStudent(@PathVariable Long id, @Valid @RequestBody StudentRecord studentRecord) {
         StudentRecord studentRecordReceived = studentService.updateStudent(id, studentRecord);
         return new ResponseEntity<>(studentRecordReceived, HttpStatus.OK);
     }

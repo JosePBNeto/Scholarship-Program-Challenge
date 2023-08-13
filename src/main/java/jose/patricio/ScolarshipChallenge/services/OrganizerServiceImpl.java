@@ -1,5 +1,6 @@
 package jose.patricio.ScolarshipChallenge.services;
 
+import jose.patricio.ScolarshipChallenge.advices.IdNotFoundException;
 import jose.patricio.ScolarshipChallenge.dtos.OrganizerRecord;
 import jose.patricio.ScolarshipChallenge.entities.OrganizerEntity;
 import jose.patricio.ScolarshipChallenge.repositories.OrganizerRepository;
@@ -30,7 +31,7 @@ public class OrganizerServiceImpl implements OrganizerService{
     public OrganizerRecord getOrganizerById(Long id) {
         return organizerRepository.findById(id)
                 .map(this::mapToOrganizerRecord)
-                .orElseThrow(() -> new RuntimeException("TODO")); // Replace "TODO" with a more appropriate exception
+                .orElseThrow(() -> new IdNotFoundException("Organizer Id not found"));
 
     }
 
@@ -47,7 +48,7 @@ public class OrganizerServiceImpl implements OrganizerService{
         return organizerRepository.findById(id)
                 .map(extistingOrganizerEntity -> updateAndSaveOrganizerEntity(extistingOrganizerEntity, organizerRecordRecord))
                 .map(this::mapToOrganizerRecord)
-                .orElseThrow(() -> new RuntimeException("Organizer not found")); // TODO: Replace with a more appropriate exception
+                .orElseThrow(() -> new IdNotFoundException("Organizer Id not found"));
     }
 
 
@@ -56,7 +57,7 @@ public class OrganizerServiceImpl implements OrganizerService{
                 .ifPresentOrElse(
                         organizerEntity -> organizerRepository.delete(organizerEntity),
                         () -> {
-                            throw new RuntimeException("Class not found"); //TODO: Replace with a more appropriate exception
+                            throw new IdNotFoundException("Organizer Id not found");
                         }
                 );
     }

@@ -1,5 +1,6 @@
 package jose.patricio.ScolarshipChallenge.controllers;
 
+import jakarta.validation.Valid;
 import jose.patricio.ScolarshipChallenge.dtos.ClassRecord;
 import jose.patricio.ScolarshipChallenge.dtos.SquadRecord;
 import jose.patricio.ScolarshipChallenge.services.SquadService;
@@ -25,7 +26,7 @@ public class SquadController {
     }
 
     @PostMapping
-    public ResponseEntity<SquadRecord> postCar(@RequestBody SquadRecord squadRecord) {
+    public ResponseEntity<SquadRecord> postCar(@Valid @RequestBody SquadRecord squadRecord) {
         System.out.println(squadRecord);
         return ResponseEntity.created(null).body(squadService.createSquad(squadRecord));
     }

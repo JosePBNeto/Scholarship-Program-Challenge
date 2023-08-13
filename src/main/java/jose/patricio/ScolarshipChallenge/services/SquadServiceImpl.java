@@ -1,5 +1,6 @@
 package jose.patricio.ScolarshipChallenge.services;
 
+import jose.patricio.ScolarshipChallenge.advices.IdNotFoundException;
 import jose.patricio.ScolarshipChallenge.dtos.SquadRecord;
 import jose.patricio.ScolarshipChallenge.entities.SquadEntity;
 import jose.patricio.ScolarshipChallenge.repositories.SquadRepository;
@@ -23,7 +24,7 @@ public class SquadServiceImpl implements  SquadService {
     public List<SquadRecord> getAllSquads() {
         return squadRepository.findAll().stream()
                 .map(this::mapToSquadRecord)
-                .collect(Collectors.toList());
+                .toList();
     }
 
 
@@ -39,7 +40,7 @@ public class SquadServiceImpl implements  SquadService {
     public SquadRecord getSquadById(Long id) {
         return squadRepository.findById(id)
                 .map(this::mapToSquadRecord)
-                .orElseThrow(() -> new RuntimeException("TODO")); // Replace "TODO" with a more appropriate exception
+                .orElseThrow(() -> new IdNotFoundException("Squad Id not found"));
     }
 
     private SquadEntity mapToSquadEntity(SquadRecord squadRecord) {
