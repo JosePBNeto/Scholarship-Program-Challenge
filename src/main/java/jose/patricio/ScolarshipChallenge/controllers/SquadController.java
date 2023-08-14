@@ -1,7 +1,6 @@
 package jose.patricio.ScolarshipChallenge.controllers;
 
 import jakarta.validation.Valid;
-import jose.patricio.ScolarshipChallenge.dtos.ClassRecord;
 import jose.patricio.ScolarshipChallenge.dtos.SquadRecord;
 import jose.patricio.ScolarshipChallenge.services.SquadService;
 import org.springframework.beans.factory.annotation.Autowired;

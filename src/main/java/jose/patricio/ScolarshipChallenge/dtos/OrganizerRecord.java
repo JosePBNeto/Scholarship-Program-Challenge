@@ -1,7 +1,6 @@
 package jose.patricio.ScolarshipChallenge.dtos;
 
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import jose.patricio.ScolarshipChallenge.entities.ClassEntity;
 import jose.patricio.ScolarshipChallenge.entities.OrganizerRole;

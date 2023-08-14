@@ -1,6 +1,5 @@
 package jose.patricio.ScolarshipChallenge.controllers;
 
-import jose.patricio.ScolarshipChallenge.entities.ClassEntity;
 import jose.patricio.ScolarshipChallenge.entities.OrganizerEntity;
 import jose.patricio.ScolarshipChallenge.entities.OrganizerRole;
 import jose.patricio.ScolarshipChallenge.entities.StudentEntity;
@@ -12,12 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import java.util.List;
+
 
 @RestController
 @RequestMapping("/populate")
@@ -93,22 +89,6 @@ public class PopulateDatabaseController {
                     .body("Error populating database: " + e.getMessage());
         }
     }
-
-//    @PostMapping("/addToClasse")
-//    public ResponseEntity<String> addStudentToClass(){
-//        try {
-//            List<StudentEntity> studentEntities = studentRepository.findAll();
-//
-//            for (StudentEntity studentEntity : studentEntities){
-//                studentEntity.setClassEntity(ClassEntity.id);
-//            }
-//
-//            return ResponseEntity.ok("Database populated successfully");
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                    .body("Error populating database: " + e.getMessage());
-//        }
-//    }
 
 
 }

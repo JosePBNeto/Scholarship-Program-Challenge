@@ -6,10 +6,7 @@ import jose.patricio.ScolarshipChallenge.entities.SquadEntity;
 import jose.patricio.ScolarshipChallenge.repositories.SquadRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class SquadServiceImpl implements  SquadService {

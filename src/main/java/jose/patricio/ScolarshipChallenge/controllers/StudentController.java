@@ -1,9 +1,7 @@
 package jose.patricio.ScolarshipChallenge.controllers;
 
 import jakarta.validation.Valid;
-import jose.patricio.ScolarshipChallenge.dtos.ClassRecord;
 import jose.patricio.ScolarshipChallenge.dtos.StudentRecord;
-import jose.patricio.ScolarshipChallenge.repositories.StudentRepository;
 import jose.patricio.ScolarshipChallenge.services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -13,6 +13,7 @@ import java.util.List;
 @Service
 public class OrganizerServiceImpl implements OrganizerService{
 
+    private static final String IDNOTFOUND = "Organizer Id not found";
     private OrganizerRepository organizerRepository;
 
     @Autowired
@@ -31,7 +32,7 @@ public class OrganizerServiceImpl implements OrganizerService{
     public OrganizerRecord getOrganizerById(Long id) {
         return organizerRepository.findById(id)
                 .map(this::mapToOrganizerRecord)
-                .orElseThrow(() -> new IdNotFoundException("Organizer Id not found"));
+                .orElseThrow(() -> new IdNotFoundException(IDNOTFOUND));
 
     }
 
@@ -48,7 +49,7 @@ public class OrganizerServiceImpl implements OrganizerService{
         return organizerRepository.findById(id)
                 .map(extistingOrganizerEntity -> updateAndSaveOrganizerEntity(extistingOrganizerEntity, organizerRecordRecord))
                 .map(this::mapToOrganizerRecord)
-                .orElseThrow(() -> new IdNotFoundException("Organizer Id not found"));
+                .orElseThrow(() -> new IdNotFoundException(IDNOTFOUND));
     }
 
 
@@ -57,7 +58,7 @@ public class OrganizerServiceImpl implements OrganizerService{
                 .ifPresentOrElse(
                         organizerEntity -> organizerRepository.delete(organizerEntity),
                         () -> {
-                            throw new IdNotFoundException("Organizer Id not found");
+                            throw new IdNotFoundException(IDNOTFOUND);
                         }
                 );
     }

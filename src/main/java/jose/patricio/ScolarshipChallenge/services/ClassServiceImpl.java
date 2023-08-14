@@ -9,11 +9,11 @@ import jose.patricio.ScolarshipChallenge.repositories.ClassRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 @Service
 public class ClassServiceImpl implements ClassService {
+
+    private static final String IDNOTFOUND = "Class Id not found";
 
     private final ClassRepository classRepository;
     @Autowired
@@ -30,10 +30,15 @@ public class ClassServiceImpl implements ClassService {
     public ClassRecord getClassById(Long id) {
         return classRepository.findById(id)
                 .map(this::mapToClassRecord)
-                .orElseThrow(() -> new IdNotFoundException("Class Id not found"));
+                .orElseThrow(() -> new IdNotFoundException(IDNOTFOUND));
     }
 
     public ClassRecord createClass(ClassRecord classRecordToCreate) {
+
+        if(!classRecordToCreate.status().equals(ClassStatus.WAITING)){
+            throw new ClassArgumentException("The class must be in WAITING status to be created");
+        }
+
         ClassEntity classEntity = mapToClassEntity(classRecordToCreate);
         classEntity = classRepository.save(classEntity);
 
@@ -45,7 +50,7 @@ public class ClassServiceImpl implements ClassService {
         return classRepository.findById(id)
                 .map(existingClassEntity -> updateAndSaveClassEntity(existingClassEntity, updatedClassRecord))
                 .map(this::mapToClassRecord)
-                .orElseThrow(() -> new IdNotFoundException("Class Id not found"));
+                .orElseThrow(() -> new IdNotFoundException(IDNOTFOUND));
 
 
     }
@@ -55,7 +60,7 @@ public class ClassServiceImpl implements ClassService {
                 .ifPresentOrElse(
                         classEntity -> classRepository.delete(classEntity),
                         () -> {
-                            throw new IdNotFoundException("Squad Id not found");
+                            throw new IdNotFoundException(IDNOTFOUND);
                         }
                 );
     }
@@ -63,7 +68,7 @@ public class ClassServiceImpl implements ClassService {
     @Override
     public ClassRecord startClass(Long id) {
         ClassEntity existingClassEntity = classRepository.findById(id)
-                .orElseThrow(() -> new IdNotFoundException("Class Id not found"));
+                .orElseThrow(() -> new IdNotFoundException(IDNOTFOUND));
 
         if (existingClassEntity.getStatus().equals(ClassStatus.STARTED) || existingClassEntity.getStatus().equals(ClassStatus.FINISHED)) {
             throw new ClassArgumentException("Class has already "+ existingClassEntity.getStatus());
@@ -114,7 +119,5 @@ public class ClassServiceImpl implements ClassService {
 
         return classRepository.save(existingClassEntity);
     }
-
-
 
 }

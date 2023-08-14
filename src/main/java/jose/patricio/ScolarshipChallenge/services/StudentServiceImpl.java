@@ -2,18 +2,16 @@ package jose.patricio.ScolarshipChallenge.services;
 
 import jose.patricio.ScolarshipChallenge.advices.IdNotFoundException;
 import jose.patricio.ScolarshipChallenge.dtos.StudentRecord;
-import jose.patricio.ScolarshipChallenge.entities.ClassEntity;
 import jose.patricio.ScolarshipChallenge.entities.StudentEntity;
 import jose.patricio.ScolarshipChallenge.repositories.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class StudentServiceImpl implements StudentService{
 
+    private static final String IDNOTFOUND = "Student Id not found";
     private StudentRepository studentRepository;
 
     @Autowired
@@ -32,7 +30,7 @@ public class StudentServiceImpl implements StudentService{
     public StudentRecord getStudentsById(Long id) {
         return studentRepository.findById(id)
                 .map(this::mapToStudentRecord)
-                .orElseThrow(() -> new IdNotFoundException("Student Id not found"));
+                .orElseThrow(() -> new IdNotFoundException(IDNOTFOUND));
     }
 
     @Override
@@ -48,14 +46,14 @@ public class StudentServiceImpl implements StudentService{
         return studentRepository.findById(id)
                 .map(existingStudentEntity -> updateAndSaveStudentEntity(existingStudentEntity, updatedStudentRecord))
                 .map(this::mapToStudentRecord)
-                .orElseThrow(() -> new IdNotFoundException("Student Id not found"));
+                .orElseThrow(() -> new IdNotFoundException(IDNOTFOUND));
     }
 
     @Override
     public void deleteStudent(Long id) {
         studentRepository.findById(id)
                 .ifPresentOrElse(studentEntity -> studentRepository.delete(studentEntity),
-                        () -> {throw new IdNotFoundException("Student Id not found");
+                        () -> {throw new IdNotFoundException(IDNOTFOUND);
                 });
     }
 

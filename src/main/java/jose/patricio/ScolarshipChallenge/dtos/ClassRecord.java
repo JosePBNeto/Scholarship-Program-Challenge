@@ -1,7 +1,6 @@
 package jose.patricio.ScolarshipChallenge.dtos;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import jose.patricio.ScolarshipChallenge.entities.ClassStatus;
 import jose.patricio.ScolarshipChallenge.entities.OrganizerEntity;
@@ -21,6 +20,7 @@ public record ClassRecord(Long id,
                           List<OrganizerEntity> organizers,
                           @JsonIgnore
                           List<SquadEntity> squadEntities,
+                          @Size(max = 30, message = "The class must have at least 15 students and at most 30 students")
                           List<StudentEntity> studentEntities)
 
 {
