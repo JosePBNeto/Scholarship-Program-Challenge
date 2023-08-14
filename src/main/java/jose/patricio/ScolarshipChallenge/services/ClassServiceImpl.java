@@ -84,6 +84,17 @@ public class ClassServiceImpl implements ClassService {
         return mapToClassRecord(classRepository.save(existingClassEntity));
     }
 
+    @Override
+    public ClassRecord finishClass(Long id) {
+        ClassEntity existingClassEntity = classRepository.findById(id)
+                .orElseThrow(() -> new IdNotFoundException(IDNOTFOUND));
+
+        existingClassEntity.setStatus(ClassStatus.FINISHED);
+
+        return mapToClassRecord(classRepository.save(existingClassEntity));
+
+    }
+
     private ClassRecord mapToClassRecord(ClassEntity classEntity) {
         return new ClassRecord(
                 classEntity.getId(),

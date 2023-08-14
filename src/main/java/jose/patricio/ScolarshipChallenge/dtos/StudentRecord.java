@@ -1,6 +1,5 @@
 package jose.patricio.ScolarshipChallenge.dtos;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
