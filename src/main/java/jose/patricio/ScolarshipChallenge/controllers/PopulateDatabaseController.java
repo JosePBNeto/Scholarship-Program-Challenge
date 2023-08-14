@@ -16,7 +16,7 @@ import java.util.Date;
 
 
 @RestController
-@RequestMapping("/populate")
+@RequestMapping("/v1/populate")
 public class PopulateDatabaseController {
 
     private OrganizerRepository organizerRepository;
