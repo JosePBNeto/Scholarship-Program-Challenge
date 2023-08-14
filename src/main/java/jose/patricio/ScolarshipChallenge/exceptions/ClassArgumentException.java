@@ -1,4 +1,4 @@
-package jose.patricio.ScolarshipChallenge.advices;
+package jose.patricio.ScolarshipChallenge.exceptions;
 
 public class ClassArgumentException extends RuntimeException{
     public ClassArgumentException(String message) {

@@ -1,4 +1,4 @@
-package jose.patricio.ScolarshipChallenge.advices;
+package jose.patricio.ScolarshipChallenge.exceptions;
 
 import org.flywaydb.core.api.ErrorDetails;
 import org.springframework.http.HttpHeaders;

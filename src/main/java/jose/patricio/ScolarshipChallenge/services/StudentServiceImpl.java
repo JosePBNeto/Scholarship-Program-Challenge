@@ -1,6 +1,6 @@
 package jose.patricio.ScolarshipChallenge.services;
 
-import jose.patricio.ScolarshipChallenge.advices.IdNotFoundException;
+import jose.patricio.ScolarshipChallenge.exceptions.IdNotFoundException;
 import jose.patricio.ScolarshipChallenge.dtos.StudentRecord;
 import jose.patricio.ScolarshipChallenge.entities.StudentEntity;
 import jose.patricio.ScolarshipChallenge.repositories.StudentRepository;

@@ -1,4 +1,4 @@
-package jose.patricio.ScolarshipChallenge.advices;
+package jose.patricio.ScolarshipChallenge.exceptions;
 
 public class IdNotFoundException extends RuntimeException{
     public IdNotFoundException(String message) {

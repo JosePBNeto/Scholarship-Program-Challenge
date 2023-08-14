@@ -1,4 +1,4 @@
-package jose.patricio.ScolarshipChallenge.advices;
+package jose.patricio.ScolarshipChallenge.exceptions;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

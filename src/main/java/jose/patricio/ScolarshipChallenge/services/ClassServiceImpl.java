@@ -1,8 +1,8 @@
 package jose.patricio.ScolarshipChallenge.services;
 
-import jose.patricio.ScolarshipChallenge.advices.ClassArgumentException;
-import jose.patricio.ScolarshipChallenge.advices.IdNotFoundException;
-import jose.patricio.ScolarshipChallenge.advices.InvalidEnumValueException;
+import jose.patricio.ScolarshipChallenge.exceptions.ClassArgumentException;
+import jose.patricio.ScolarshipChallenge.exceptions.IdNotFoundException;
+import jose.patricio.ScolarshipChallenge.exceptions.InvalidEnumValueException;
 import jose.patricio.ScolarshipChallenge.dtos.ClassRecord;
 import jose.patricio.ScolarshipChallenge.entities.ClassEntity;
 import jose.patricio.ScolarshipChallenge.entities.ClassStatus;

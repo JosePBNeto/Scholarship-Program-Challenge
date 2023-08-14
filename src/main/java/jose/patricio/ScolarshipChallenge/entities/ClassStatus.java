@@ -1,7 +1,7 @@
 package jose.patricio.ScolarshipChallenge.entities;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import jose.patricio.ScolarshipChallenge.advices.InvalidEnumValueException;
+import jose.patricio.ScolarshipChallenge.exceptions.InvalidEnumValueException;
 
 public enum ClassStatus {
     WAITING, STARTED, FINISHED;
