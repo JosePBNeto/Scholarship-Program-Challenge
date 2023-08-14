@@ -2,6 +2,7 @@ package jose.patricio.ScolarshipChallenge.services;
 
 import jose.patricio.ScolarshipChallenge.advices.ClassArgumentException;
 import jose.patricio.ScolarshipChallenge.advices.IdNotFoundException;
+import jose.patricio.ScolarshipChallenge.advices.InvalidEnumValueException;
 import jose.patricio.ScolarshipChallenge.dtos.ClassRecord;
 import jose.patricio.ScolarshipChallenge.entities.ClassEntity;
 import jose.patricio.ScolarshipChallenge.entities.ClassStatus;
@@ -36,7 +37,7 @@ public class ClassServiceImpl implements ClassService {
     public ClassRecord createClass(ClassRecord classRecordToCreate) {
 
         if(!classRecordToCreate.status().equals(ClassStatus.WAITING)){
-            throw new ClassArgumentException("The class must be in WAITING status to be created");
+            throw new InvalidEnumValueException("Class must be in " + ClassStatus.WAITING + " status before created");
         }
 
         ClassEntity classEntity = mapToClassEntity(classRecordToCreate);

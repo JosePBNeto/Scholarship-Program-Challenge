@@ -39,5 +39,13 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
         return new ResponseEntity(customErrorDetails, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(InvalidEnumValueException.class)
+    public ResponseEntity<Object> handleInvalidEnumException(InvalidEnumValueException ex, WebRequest request) {
+        customErrorDetails = new CustomErrorDetails(LocalDateTime.now(), ex.getMessage(), request.getDescription(false));
+
+        return new ResponseEntity<>(customErrorDetails, HttpStatus.BAD_REQUEST);
+    }
+
+
 
 }
