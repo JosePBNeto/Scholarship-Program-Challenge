@@ -32,7 +32,7 @@ public class ClassEntity {
     private Date end_date;
 
     @ManyToMany
-    @JoinTable(name = "class-organizers",
+    @JoinTable(name = "class_organizers",
             joinColumns = @JoinColumn(name = "Class_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "Organizer_id", referencedColumnName = "id"))
     @JsonIgnoreProperties("classes")

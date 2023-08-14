@@ -89,7 +89,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `db_scholarship`.`Class_organizers`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `db_scholarship`.`Class-organizers` (
+CREATE TABLE IF NOT EXISTS `db_scholarship`.`Class_organizers` (
   `Class_id` BIGINT NOT NULL,
   `Organizer_id` BIGINT NOT NULL,
   PRIMARY KEY (`Class_id`, `Organizer_id`),

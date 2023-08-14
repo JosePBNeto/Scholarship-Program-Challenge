@@ -1,5 +1,7 @@
 package jose.patricio.ScolarshipChallenge.services;
 
+import jose.patricio.ScolarshipChallenge.entities.OrganizerEntity;
+import jose.patricio.ScolarshipChallenge.entities.OrganizerRole;
 import jose.patricio.ScolarshipChallenge.exceptions.ClassArgumentException;
 import jose.patricio.ScolarshipChallenge.exceptions.IdNotFoundException;
 import jose.patricio.ScolarshipChallenge.exceptions.InvalidEnumValueException;
@@ -10,6 +12,8 @@ import jose.patricio.ScolarshipChallenge.repositories.ClassRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class ClassServiceImpl implements ClassService {
@@ -75,10 +79,11 @@ public class ClassServiceImpl implements ClassService {
             throw new ClassArgumentException("Class has already "+ existingClassEntity.getStatus());
         }
 
-        // Validate the number of students before starting the class
         if (existingClassEntity.getStudentEntities().size() < 15 || existingClassEntity.getStudentEntities().size() > 30) {
             throw new ClassArgumentException("Number of students must be between 15 and 30 to start the class.");
         }
+
+        validateOrganizers(existingClassEntity.getOrganizers());
 
         existingClassEntity.setStatus(ClassStatus.STARTED);
         return mapToClassRecord(classRepository.save(existingClassEntity));
@@ -131,5 +136,23 @@ public class ClassServiceImpl implements ClassService {
 
         return classRepository.save(existingClassEntity);
     }
+
+
+    public void validateOrganizers(List<OrganizerEntity> organizers) {
+        Map<OrganizerRole, Long> roleCounts = organizers.stream()
+                .collect(Collectors.groupingBy(
+                        OrganizerEntity::getRole,
+                        Collectors.counting()
+                ));
+
+        long coordinatorCount = roleCounts.getOrDefault(OrganizerRole.COORDINATOR, 0L);
+        long smCount = roleCounts.getOrDefault(OrganizerRole.SCRUMMASTER, 0L);
+        long instructorCount = roleCounts.getOrDefault(OrganizerRole.INSTRUCTOR, 0L);
+
+        if (coordinatorCount < 1 || smCount < 1 || instructorCount < 3) {
+            throw new ClassArgumentException("To start the class you need 1 coordinator, 1 scrum master and 3 instructors.");
+        }
+    }
+
 
 }
