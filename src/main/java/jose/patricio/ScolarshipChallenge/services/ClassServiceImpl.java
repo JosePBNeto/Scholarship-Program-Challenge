@@ -9,10 +9,12 @@ import jose.patricio.ScolarshipChallenge.dtos.ClassRecord;
 import jose.patricio.ScolarshipChallenge.entities.ClassEntity;
 import jose.patricio.ScolarshipChallenge.entities.ClassStatus;
 import jose.patricio.ScolarshipChallenge.repositories.ClassRepository;
+import jose.patricio.ScolarshipChallenge.repositories.OrganizerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,9 +23,13 @@ public class ClassServiceImpl implements ClassService {
     private static final String IDNOTFOUND = "Class Id not found";
 
     private final ClassRepository classRepository;
+
+    private final OrganizerRepository organizerRepository;
+
     @Autowired
-    public ClassServiceImpl(ClassRepository classRepository) {
+    public ClassServiceImpl(ClassRepository classRepository, OrganizerRepository organizerRepository) {
         this.classRepository = classRepository;
+        this.organizerRepository = organizerRepository;
     }
 
     public List<ClassRecord> getAllClasses() {
@@ -40,6 +46,8 @@ public class ClassServiceImpl implements ClassService {
 
     public ClassRecord createClass(ClassRecord classRecordToCreate) {
 
+        validateOrganizerIdIfNotNull(classRecordToCreate);
+
         if(!classRecordToCreate.status().equals(ClassStatus.WAITING)){
             throw new InvalidEnumValueException("Class must be in " + ClassStatus.WAITING + " status before created");
         }
@@ -52,6 +60,9 @@ public class ClassServiceImpl implements ClassService {
 
 
     public ClassRecord updateClass(Long id, ClassRecord updatedClassRecord) {
+
+        validateOrganizerIdIfNotNull(updatedClassRecord);
+
         return classRepository.findById(id)
                 .map(existingClassEntity -> updateAndSaveClassEntity(existingClassEntity, updatedClassRecord))
                 .map(this::mapToClassRecord)
@@ -83,7 +94,7 @@ public class ClassServiceImpl implements ClassService {
             throw new ClassArgumentException("Number of students must be between 15 and 30 to start the class.");
         }
 
-        validateOrganizers(existingClassEntity.getOrganizers());
+        validateIfHasAllOrganizersNeeded(existingClassEntity.getOrganizers());
 
         existingClassEntity.setStatus(ClassStatus.STARTED);
         return mapToClassRecord(classRepository.save(existingClassEntity));
@@ -138,7 +149,7 @@ public class ClassServiceImpl implements ClassService {
     }
 
 
-    public void validateOrganizers(List<OrganizerEntity> organizers) {
+    public void validateIfHasAllOrganizersNeeded(List<OrganizerEntity> organizers) {
         Map<OrganizerRole, Long> roleCounts = organizers.stream()
                 .collect(Collectors.groupingBy(
                         OrganizerEntity::getRole,
@@ -152,6 +163,14 @@ public class ClassServiceImpl implements ClassService {
         if (coordinatorCount < 1 || smCount < 1 || instructorCount < 3) {
             throw new ClassArgumentException("To start the class you need 1 coordinator, 1 scrum master and 3 instructors.");
         }
+    }
+
+    public void validateOrganizerIdIfNotNull(ClassRecord classRecord) {
+        Optional.ofNullable(classRecord.organizers())
+                .ifPresent(organizerEntities -> organizerEntities.stream()
+                        .map(OrganizerEntity::getId)
+                        .forEach(organizerId -> organizerRepository.findById(organizerId)
+                                .orElseThrow(() -> new IdNotFoundException("Organizer Id not found"))));
     }
 
 

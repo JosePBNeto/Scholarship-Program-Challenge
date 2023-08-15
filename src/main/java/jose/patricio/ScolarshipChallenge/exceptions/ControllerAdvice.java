@@ -66,6 +66,8 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
             errorDetails = new CustomErrorDetails(LocalDateTime.now(), "Email already exists", request.getDescription(false));
         } else if (ex.getMessage().contains("number")){
             errorDetails = new CustomErrorDetails(LocalDateTime.now(), "Student number already exists", request.getDescription(false));
+        } else if (ex.getMessage().contains("PRIMARY")) {
+            errorDetails = new CustomErrorDetails(LocalDateTime.now(), "Duplicated ID", request.getDescription(false));
         }
 
         return new ResponseEntity<>(errorDetails, HttpStatus.CONFLICT);
