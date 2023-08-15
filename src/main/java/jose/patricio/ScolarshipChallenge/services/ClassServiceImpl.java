@@ -1,15 +1,13 @@
 package jose.patricio.ScolarshipChallenge.services;
 
-import jose.patricio.ScolarshipChallenge.entities.OrganizerEntity;
-import jose.patricio.ScolarshipChallenge.entities.OrganizerRole;
+import jose.patricio.ScolarshipChallenge.entities.*;
 import jose.patricio.ScolarshipChallenge.exceptions.ClassArgumentException;
 import jose.patricio.ScolarshipChallenge.exceptions.IdNotFoundException;
 import jose.patricio.ScolarshipChallenge.exceptions.InvalidEnumValueException;
 import jose.patricio.ScolarshipChallenge.dtos.ClassRecord;
-import jose.patricio.ScolarshipChallenge.entities.ClassEntity;
-import jose.patricio.ScolarshipChallenge.entities.ClassStatus;
 import jose.patricio.ScolarshipChallenge.repositories.ClassRepository;
 import jose.patricio.ScolarshipChallenge.repositories.OrganizerRepository;
+import jose.patricio.ScolarshipChallenge.repositories.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -26,10 +24,13 @@ public class ClassServiceImpl implements ClassService {
 
     private final OrganizerRepository organizerRepository;
 
+    private final StudentRepository studentRepository;
+
     @Autowired
-    public ClassServiceImpl(ClassRepository classRepository, OrganizerRepository organizerRepository) {
+    public ClassServiceImpl(ClassRepository classRepository, OrganizerRepository organizerRepository, StudentRepository studentRepository) {
         this.classRepository = classRepository;
         this.organizerRepository = organizerRepository;
+        this.studentRepository = studentRepository;
     }
 
     public List<ClassRecord> getAllClasses() {
@@ -74,7 +75,19 @@ public class ClassServiceImpl implements ClassService {
     public void deleteClass(Long id) {
         classRepository.findById(id)
                 .ifPresentOrElse(
-                        classEntity -> classRepository.delete(classEntity),
+                        classEntity -> {
+
+                            List<StudentEntity> studentsToUpdate = studentRepository.findByClassEntity(classEntity);
+
+                            studentsToUpdate.forEach(student -> {
+                                student.setClassEntity(null);
+
+                                studentRepository.save(student);
+
+                            });
+
+                            classRepository.delete(classEntity);
+                        },
                         () -> {
                             throw new IdNotFoundException(IDNOTFOUND);
                         }

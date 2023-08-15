@@ -4,6 +4,7 @@ import jose.patricio.ScolarshipChallenge.dtos.OrganizerRecord;
 import jose.patricio.ScolarshipChallenge.entities.OrganizerEntity;
 import jose.patricio.ScolarshipChallenge.entities.OrganizerRole;
 import jose.patricio.ScolarshipChallenge.exceptions.IdNotFoundException;
+import jose.patricio.ScolarshipChallenge.repositories.ClassRepository;
 import jose.patricio.ScolarshipChallenge.repositories.OrganizerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,7 +23,8 @@ public class OrganizerServiceImplTest {
 
     @Mock
     private OrganizerRepository organizerRepository;
-
+    @Mock
+    private ClassRepository classRepository;
     @InjectMocks
     private OrganizerServiceImpl organizerService;
 

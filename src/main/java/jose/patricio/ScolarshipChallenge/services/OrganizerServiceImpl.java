@@ -1,8 +1,10 @@
 package jose.patricio.ScolarshipChallenge.services;
 
+import jose.patricio.ScolarshipChallenge.entities.ClassEntity;
 import jose.patricio.ScolarshipChallenge.exceptions.IdNotFoundException;
 import jose.patricio.ScolarshipChallenge.dtos.OrganizerRecord;
 import jose.patricio.ScolarshipChallenge.entities.OrganizerEntity;
+import jose.patricio.ScolarshipChallenge.repositories.ClassRepository;
 import jose.patricio.ScolarshipChallenge.repositories.OrganizerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,9 +18,12 @@ public class OrganizerServiceImpl implements OrganizerService{
     private static final String IDNOTFOUND = "Organizer Id not found";
     private OrganizerRepository organizerRepository;
 
+    private ClassRepository classRepository;
+
     @Autowired
-    public OrganizerServiceImpl(OrganizerRepository organizerRepository) {
+    public OrganizerServiceImpl(OrganizerRepository organizerRepository, ClassRepository classRepository) {
         this.organizerRepository = organizerRepository;
+        this.classRepository = classRepository;
     }
 
 
@@ -55,12 +60,19 @@ public class OrganizerServiceImpl implements OrganizerService{
 
     public void deleteOrganizer(Long id) {
         organizerRepository.findById(id)
-                .ifPresentOrElse(
-                        organizerEntity -> organizerRepository.delete(organizerEntity),
-                        () -> {
-                            throw new IdNotFoundException(IDNOTFOUND);
-                        }
-                );
+                .ifPresentOrElse(organizerEntity -> {
+                    List<ClassEntity> classesRelatedtoOrganizer = classRepository.findByOrganizersContaining(organizerEntity);
+
+                    classesRelatedtoOrganizer.forEach(classEntity -> {
+                       classEntity.setOrganizers(null);
+
+                        organizerRepository.save(organizerEntity);
+                    });
+
+                    organizerRepository.delete(organizerEntity);
+                }, () -> {
+                    throw new IdNotFoundException(IDNOTFOUND);
+                });
     }
 
     private OrganizerRecord mapToOrganizerRecord(OrganizerEntity organizerEntity) {
