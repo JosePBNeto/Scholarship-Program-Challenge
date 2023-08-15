@@ -16,7 +16,7 @@ public enum ClassStatus {
             return ClassStatus.valueOf(value.toUpperCase());
         } catch (IllegalArgumentException ex) {
             throw new InvalidEnumValueException(
-                    "Invalid enum value for ClassStatus: " + value);
+                    "Invalid Class Status: " + value + ". Please select: WAITING, STARTED, FINISHED");
         }
     }
 
