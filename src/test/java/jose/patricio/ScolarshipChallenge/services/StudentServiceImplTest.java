@@ -1,8 +1,11 @@
 package jose.patricio.ScolarshipChallenge.services;
 
 import jose.patricio.ScolarshipChallenge.dtos.StudentRecord;
+import jose.patricio.ScolarshipChallenge.entities.ClassEntity;
+import jose.patricio.ScolarshipChallenge.entities.ClassStatus;
 import jose.patricio.ScolarshipChallenge.entities.StudentEntity;
 import jose.patricio.ScolarshipChallenge.exceptions.IdNotFoundException;
+import jose.patricio.ScolarshipChallenge.repositories.ClassRepository;
 import jose.patricio.ScolarshipChallenge.repositories.StudentRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,6 +21,8 @@ public class StudentServiceImplTest {
 
     @Mock
     private StudentRepository studentRepository;
+    @Mock
+    private ClassRepository classRepository;
 
     @InjectMocks
     private StudentServiceImpl studentService;
@@ -66,9 +71,12 @@ public class StudentServiceImplTest {
 
     @Test
     void testCreateStudent() {
+        ClassEntity classEntity = new ClassEntity(null, "A", ClassStatus.WAITING, null, null, null, null, null);
         StudentRecord studentRecordToCreate = new StudentRecord(1L, "Eve", "eve@gmail.com", "54321", null, null, null);
         StudentEntity createdStudentEntity = new StudentEntity(2L, "Eve", "eve@gmail.com", "54321", null, null, null);
-        when(studentRepository.save(any(StudentEntity.class))).thenReturn(createdStudentEntity);
+
+         when(classRepository.findById(1L)).thenReturn(Optional.of(classEntity));
+         when(studentRepository.save(any(StudentEntity.class))).thenReturn(createdStudentEntity);
 
 
         StudentRecord createdStudentRecord = studentService.createStudent(studentRecordToCreate);
@@ -76,6 +84,8 @@ public class StudentServiceImplTest {
 
         assertEquals("Eve", createdStudentRecord.name());
         assertEquals("eve@gmail.com", createdStudentRecord.email());
+
+
 
 
     }

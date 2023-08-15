@@ -1,8 +1,12 @@
 package jose.patricio.ScolarshipChallenge.services;
 
+import jose.patricio.ScolarshipChallenge.entities.ClassEntity;
+import jose.patricio.ScolarshipChallenge.entities.ClassStatus;
+import jose.patricio.ScolarshipChallenge.exceptions.ClassArgumentException;
 import jose.patricio.ScolarshipChallenge.exceptions.IdNotFoundException;
 import jose.patricio.ScolarshipChallenge.dtos.StudentRecord;
 import jose.patricio.ScolarshipChallenge.entities.StudentEntity;
+import jose.patricio.ScolarshipChallenge.repositories.ClassRepository;
 import jose.patricio.ScolarshipChallenge.repositories.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,10 +17,12 @@ public class StudentServiceImpl implements StudentService{
 
     private static final String IDNOTFOUND = "Student Id not found";
     private StudentRepository studentRepository;
+    private ClassRepository classRepository;
 
     @Autowired
-    public StudentServiceImpl(StudentRepository studentRepository) {
+    public StudentServiceImpl(StudentRepository studentRepository, ClassRepository classRepository) {
         this.studentRepository = studentRepository;
+        this.classRepository = classRepository;
     }
 
     @Override
@@ -35,6 +41,19 @@ public class StudentServiceImpl implements StudentService{
 
     @Override
     public StudentRecord createStudent(StudentRecord studentRecordToCreate) {
+
+        ClassEntity classEntity1;
+
+        if (studentRecordToCreate.classEntity() != null) {
+             classEntity1 = classRepository.findById(studentRecordToCreate.classEntity().getId())
+                    .orElseThrow(() -> new IdNotFoundException("Class Id not found"));
+            if (!classEntity1.getStatus().equals(ClassStatus.WAITING)) {
+                throw new ClassArgumentException("Students can only be added to a class in the 'waiting' status.");
+            }
+        }
+
+
+
         StudentEntity studentEntity = mapToStudentEntity(studentRecordToCreate);
         studentEntity = studentRepository.save(studentEntity);
 

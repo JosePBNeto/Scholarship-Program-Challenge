@@ -26,7 +26,6 @@ public class SquadController {
 
     @PostMapping
     public ResponseEntity<SquadRecord> postCar(@Valid @RequestBody SquadRecord squadRecord) {
-        System.out.println(squadRecord);
         return ResponseEntity.created(null).body(squadService.createSquad(squadRecord));
     }
     @GetMapping("/{id}")
