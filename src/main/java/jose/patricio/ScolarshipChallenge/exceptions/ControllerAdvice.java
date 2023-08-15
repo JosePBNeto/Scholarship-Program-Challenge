@@ -22,6 +22,11 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
         CustomErrorDetails errorDetails = new CustomErrorDetails(LocalDateTime.now(),
                 ex.getMostSpecificCause().getMessage(), request.getDescription(false));
 
+        if (ex.getMessage().contains("error: Failed to parse Date")){
+            errorDetails = new CustomErrorDetails(LocalDateTime.now(),
+                    "Insert a valid date. FORMAT: yyyy-MM-dd format", request.getDescription(false));
+        }
+
         return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
     }
 
@@ -55,13 +60,14 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<Object> handleDuplicatedUniqueData(DataIntegrityViolationException ex, WebRequest request) {
-        CustomErrorDetails errorDetails;
+        CustomErrorDetails errorDetails = new CustomErrorDetails(LocalDateTime.now(), ex.getMessage(), request.getDescription(false));
 
         if (ex.getMessage().contains("email")) {
             errorDetails = new CustomErrorDetails(LocalDateTime.now(), "Email already exists", request.getDescription(false));
-        } else {
+        } else if (ex.getMessage().contains("number")){
             errorDetails = new CustomErrorDetails(LocalDateTime.now(), "Student number already exists", request.getDescription(false));
         }
+
         return new ResponseEntity<>(errorDetails, HttpStatus.CONFLICT);
     }
 
