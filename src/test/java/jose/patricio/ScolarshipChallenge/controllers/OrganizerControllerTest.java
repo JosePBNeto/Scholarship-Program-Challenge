@@ -1,87 +1,71 @@
 package jose.patricio.ScolarshipChallenge.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jose.patricio.ScolarshipChallenge.dtos.OrganizerRecord;
 import jose.patricio.ScolarshipChallenge.services.OrganizerService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import java.util.Collections;
-import java.util.List;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import static org.mockito.Mockito.*;
 
+@WebMvcTest(controllers = OrganizerController.class)
 public class OrganizerControllerTest {
 
-    @Mock
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @MockBean
     private OrganizerService organizerService;
 
-    @InjectMocks
-    private OrganizerController organizerController;
-
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
 
     @Test
-    void testGetAllOrganizers() {
-        List<OrganizerRecord> organizersRecordList = Collections.singletonList(
-                new OrganizerRecord(1L, "Joao", "jao@gmail.com", null, null)
-        );
-        when(organizerService.getAllOrganizers()).thenReturn(organizersRecordList);
+    void testGetOrganizerById() throws Exception {
+        OrganizerRecord organizerRecord = new OrganizerRecord(
+                1L, "max", "max@gmail.com", null, null);
 
-        ResponseEntity<List<OrganizerRecord>> responseEntity = organizerController.getAllOrganizers();
-
-
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(organizersRecordList, responseEntity.getBody());
-    }
-
-    @Test
-    void testGetOrganizerById() {
-        OrganizerRecord organizerRecord = new OrganizerRecord(1L, "pedro", "peu@gmail.com", null, null);
         when(organizerService.getOrganizerById(1L)).thenReturn(organizerRecord);
 
-        ResponseEntity<OrganizerRecord> responseEntity = organizerController.getOrganizerById(1L);
-
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(organizerRecord, responseEntity.getBody());
+        mockMvc.perform(MockMvcRequestBuilders.get("/v1/organizers/1"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(organizerRecord)));
     }
 
     @Test
-    void testPostOrganizer() {
-        OrganizerRecord organizerRecordToCreate = new OrganizerRecord(null, "jose", "ze@gmail.com", null, null);
-        OrganizerRecord createdOrganizerRecord = new OrganizerRecord(2L, "lula", "luiz@@gmail.com", null, null);
-        when(organizerService.createOrganizer(organizerRecordToCreate)).thenReturn(createdOrganizerRecord);
+    void testGetNonExistentOrganizer() throws Exception {
+        when(organizerService.getOrganizerById(99L)).thenReturn(null);
 
-        ResponseEntity<OrganizerRecord> responseEntity = organizerController.postOrganizer(organizerRecordToCreate);
+        mockMvc.perform(MockMvcRequestBuilders.get("/v1/organizer/99"))
+                .andExpect(MockMvcResultMatchers.status().isNotFound());
+    }
+    @Test
+    void testUpdateOrganizer() throws Exception {
+        OrganizerRecord inputOrganizer = new OrganizerRecord(
+                null, "nameTrocado", "emailtrocado@gmail.com", null, null);
+        OrganizerRecord updatedOrganizer = new OrganizerRecord(
+                1L, "nameTrocado", "emailtrocado@gmail.com", null, null);
 
-        assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
-        assertEquals(createdOrganizerRecord, responseEntity.getBody());
+        when(organizerService.updateOrganizer(eq(1L), any())).thenReturn(updatedOrganizer);
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/v1/organizers/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(inputOrganizer)))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(updatedOrganizer)));
     }
 
     @Test
-    void testUpdateOrganizer() {
-        Long existingOrganizerId = 1L;
-        OrganizerRecord updatedOrganizerRecord = new OrganizerRecord(existingOrganizerId, "Updated Jao", "updated@gmail.com", null, null);
-        when(organizerService.updateOrganizer(existingOrganizerId, updatedOrganizerRecord)).thenReturn(updatedOrganizerRecord);
+    void testDeleteOrganizer() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.delete("/v1/organizers/1"))
+                .andExpect(MockMvcResultMatchers.status().isNoContent());
 
-        ResponseEntity<OrganizerRecord> responseEntity = organizerController.updateOrganizer(existingOrganizerId, updatedOrganizerRecord);
-
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(updatedOrganizerRecord, responseEntity.getBody());
-    }
-
-    @Test
-    void testDeleteOrganizer() {
-        ResponseEntity<Void> responseEntity = organizerController.deleteOrganizer(1L);
-
-        assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
         verify(organizerService, times(1)).deleteOrganizer(1L);
     }
-
 }

@@ -33,8 +33,8 @@ public class ClassControllerTest {
     @Test
     void testGetAllClasses() throws Exception {
         List<ClassRecord> classRecords = Collections.singletonList(
-                new ClassRecord(1L, "Spring Boot", ClassStatus.WAITING, new Date(), new Date(), null, null, null)
-        );
+                new ClassRecord(1L, "Spring Boot", ClassStatus.WAITING, new Date(), new Date(), null, null, null));
+
         when(classService.getAllClasses()).thenReturn(classRecords);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/v1/classes"))
@@ -45,8 +45,8 @@ public class ClassControllerTest {
     @Test
     void testGetClassById() throws Exception {
         ClassRecord classRecord = new ClassRecord(
-                1L, "Spring Boot", ClassStatus.WAITING, new Date(), new Date(), null, null, null
-        );
+                1L, "Spring Boot", ClassStatus.WAITING, new Date(), new Date(), null, null, null);
+
         when(classService.getClassById(1L)).thenReturn(classRecord);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/v1/classes/1"))
