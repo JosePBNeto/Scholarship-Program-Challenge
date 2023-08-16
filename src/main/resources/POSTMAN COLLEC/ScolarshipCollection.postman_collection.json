@@ -1,0 +1,580 @@
+{
+	"info": {
+		"_postman_id": "de116a3b-a900-44a4-bdbf-4739ca4bbcbb",
+		"name": "ScolarshipCollection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28411536"
+	},
+	"item": [
+		{
+			"name": "Classes",
+			"item": [
+				{
+					"name": "/classes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/v1/classes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"classes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/classes/id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/v1/classes/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"classes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/classes",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n    {\r\n        \"name\": \"Spring Boot AWS Cloud Context\",\r\n        \"status\": \"WAITING\",\r\n        \"start_date\": \"2023-09-15\",\r\n        \"end_date\": \"2023-12-29\",\r\n        \"organizers\": [\r\n            {\r\n                \"id\": 3,\r\n                \"name\": \"Coordinator 1\",\r\n                \"email\": \"coordinator1@compass.com\",\r\n                \"role\": \"COORDINATOR\"\r\n            },\r\n            {\r\n                \"id\": 4,\r\n                \"name\": \"Scrum Master 1\",\r\n                \"email\": \"scrummaster1@compass.com\",\r\n                \"role\": \"SCRUMMASTER\"\r\n            },\r\n            {\r\n                \"id\": 7,\r\n                \"name\": \"Instructor 1\",\r\n                \"email\": \"instructor1@compass.com\",\r\n                \"role\": \"INSTRUCTOR\"\r\n            },\r\n            {\r\n                \"id\": 8,\r\n                \"name\": \"Instructor 2\",\r\n                \"email\": \"instructor2@compass.com\",\r\n                \"role\": \"INSTRUCTOR\"\r\n            },\r\n            {\r\n                \"id\": 9,\r\n                \"name\": \"Instructor 3\",\r\n                \"email\": \"instructor3@compass.com\",\r\n                \"role\": \"INSTRUCTOR\"\r\n            }\r\n        ],\r\n        \"studentEntities\": []\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/v1/classes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"classes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/classes/id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"CLass changed\",\r\n    \"status\": \"WAITING\",\r\n    \"start_date\": \"2023-06-16\",\r\n    \"end_date\": \"2023-12-30\",\r\n    \"organizers\": [\r\n        {\r\n            \"id\": 1\r\n        },\r\n        {\r\n            \"id\": 4\r\n        },\r\n        {\r\n            \"id\": 7\r\n        },\r\n        {\r\n            \"id\": 8\r\n        },\r\n        {\r\n            \"id\": 9\r\n        }\r\n        \r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/v1/classes/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"classes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/classes/id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/v1/classes/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"classes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/classes/id/start",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/v1/classes/1/start",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"classes",
+								"1",
+								"start"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/classes/id/finish",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/v1/classes/1/finish",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"classes",
+								"1",
+								"finish"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Sudents",
+			"item": [
+				{
+					"name": "/students",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/v1/students",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"students"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/students/id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/v1/students/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"students",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/students",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Jesus Maria Jose\",\r\n    \"email\": \"jmj@compass.com\",\r\n    \"number\": \"4899958587\",\r\n    \"dateOfBirth\": \"1954-05-08\",\r\n    \"squadEntity\": {\r\n        \"id\": 1,\r\n        \"name\": \"BugBusters\"\r\n    },\r\n    \"classEntity\": {\r\n        \"id\": 1,\r\n        \"name\": \"Trilha de formacao Spring Boot AWS Cloud Context 2\",\r\n        \"status\": \"WAITING\",\r\n        \"start_date\": \"2023-06-15\",\r\n        \"end_date\": \"2023-12-29\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/v1/students",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"students"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/students",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Student Changes\",\r\n    \"email\": \"stud@compass.com\",\r\n    \"number\": \"48888585851\",\r\n    \"dateOfBirth\": \"1995-05-09\",\r\n    \"squadEntity\": {\r\n        \"id\" : 1\r\n    },\r\n    \"classEntity\": {\r\n        \"id\": 1,\r\n        \"name\": \"Trilha de formacao Spring Boot AWS Cloud Context 2\",\r\n        \"status\": \"STARTED\",\r\n        \"start_date\": \"2023-06-15\",\r\n        \"end_date\": \"2023-12-29\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/v1/students/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"students",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/students/id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/v1/students/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"students",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Squads",
+			"item": [
+				{
+					"name": "/squads",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/v1/squads",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"squads"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/squads/id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/v1/squads/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"squads",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/squads",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"BugBusters\",\r\n  \"classEntity\": {\r\n      \"id\": 1\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/v1/squads",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"squads"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Organizers",
+			"item": [
+				{
+					"name": "/organizers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/v1/organizers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"organizers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/organizers/id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/v1/organizers/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"organizers",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/organizers",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"name\": \"Max\",\r\n        \"email\": \"maxs@example.com\",\r\n        \"organizerRole\": \"SCRUMMASTER\",\r\n        \"classEntityList\": []\r\n    }\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/v1/organizers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"organizers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/organizers/id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"name\": \"Hiago Alterado\",\r\n        \"email\": \"hiago2@example.com\",\r\n        \"organizerRole\": \"SCRUMMASTER\",\r\n        \"classEntityList\": []\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/v1/organizers/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"organizers",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/organizers/id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/v1/organizers/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"organizers",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Populate Database",
+			"item": [
+				{
+					"name": "/populate",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/v1/populate",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"populate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/populate/class/{id}/numberOfStudents/{number}}",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/v1/populate/class/1/numberOfStudents/15",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"populate",
+								"class",
+								"1",
+								"numberOfStudents",
+								"15"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
