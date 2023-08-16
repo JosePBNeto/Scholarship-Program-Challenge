@@ -53,8 +53,8 @@ CREATE TABLE IF NOT EXISTS `db_scholarship`.`Student` (
   `email` VARCHAR(200) NOT NULL,
   `number` VARCHAR(20) NULL,
   `date_of_birth` DATE NULL,
-  `Squad_id` BIGINT NOT NULL,
-  `Class_id` BIGINT NOT NULL,
+  `Squad_id` BIGINT NULL,
+  `Class_id` BIGINT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
   UNIQUE INDEX `number_UNIQUE` (`number` ASC) VISIBLE,
@@ -89,7 +89,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `db_scholarship`.`Class_organizers`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `db_scholarship`.`Class-organizers` (
+CREATE TABLE IF NOT EXISTS `db_scholarship`.`Class_organizers` (
   `Class_id` BIGINT NOT NULL,
   `Organizer_id` BIGINT NOT NULL,
   PRIMARY KEY (`Class_id`, `Organizer_id`),

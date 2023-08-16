@@ -2,7 +2,6 @@ package jose.patricio.ScolarshipChallenge.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,16 +24,19 @@ public class ClassEntity {
 
     @Enumerated(value = EnumType.STRING)
     private ClassStatus status;
+
     @Temporal(TemporalType.DATE)
     private Date start_date;
+
     @Temporal(TemporalType.DATE)
     private Date end_date;
 
     @ManyToMany
-    @JoinTable(name = "class-organizers",
+    @JoinTable(name = "class_organizers",
             joinColumns = @JoinColumn(name = "Class_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "Organizer_id", referencedColumnName = "id"))
     @JsonIgnoreProperties("classes")
+    @JsonIgnore
     private List<OrganizerEntity> organizers;
 
 

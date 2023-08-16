@@ -1,14 +1,12 @@
 package jose.patricio.ScolarshipChallenge.services;
 
+import jose.patricio.ScolarshipChallenge.exceptions.IdNotFoundException;
 import jose.patricio.ScolarshipChallenge.dtos.SquadRecord;
 import jose.patricio.ScolarshipChallenge.entities.SquadEntity;
 import jose.patricio.ScolarshipChallenge.repositories.SquadRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class SquadServiceImpl implements  SquadService {
@@ -23,7 +21,7 @@ public class SquadServiceImpl implements  SquadService {
     public List<SquadRecord> getAllSquads() {
         return squadRepository.findAll().stream()
                 .map(this::mapToSquadRecord)
-                .collect(Collectors.toList());
+                .toList();
     }
 
 
@@ -39,7 +37,7 @@ public class SquadServiceImpl implements  SquadService {
     public SquadRecord getSquadById(Long id) {
         return squadRepository.findById(id)
                 .map(this::mapToSquadRecord)
-                .orElseThrow(() -> new RuntimeException("TODO")); // Replace "TODO" with a more appropriate exception
+                .orElseThrow(() -> new IdNotFoundException("Squad Id not found"));
     }
 
     private SquadEntity mapToSquadEntity(SquadRecord squadRecord) {

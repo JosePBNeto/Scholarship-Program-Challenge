@@ -1,6 +1,7 @@
 package jose.patricio.ScolarshipChallenge.controllers;
 
 
+import jakarta.validation.Valid;
 import jose.patricio.ScolarshipChallenge.dtos.ClassRecord;
 import jose.patricio.ScolarshipChallenge.services.ClassService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/classes")
+@RequestMapping("/v1/classes")
 public class ClassController {
 
     @Autowired
@@ -30,12 +31,12 @@ public class ClassController {
     }
 
     @PostMapping
-    public ResponseEntity<ClassRecord> postClass(@RequestBody ClassRecord classRecord) {
+    public ResponseEntity<ClassRecord> postClass(@Valid @RequestBody ClassRecord classRecord) {
         return ResponseEntity.created(null).body(classService.createClass(classRecord));
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<ClassRecord> updateClass(@PathVariable Long id, @RequestBody ClassRecord classRecord) {
+    ResponseEntity<ClassRecord> updateClass(@PathVariable Long id, @Valid @RequestBody ClassRecord classRecord) {
         ClassRecord classRecordRecived = classService.updateClass(id, classRecord);
         return new ResponseEntity<>(classRecordRecived, HttpStatus.OK);
     }
@@ -44,6 +45,18 @@ public class ClassController {
     public ResponseEntity<Void> deleteClass(@PathVariable Long id) {
         classService.deleteClass(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PutMapping("/{id}/start")
+    public ResponseEntity<ClassRecord> startClass(@PathVariable Long id) {
+        ClassRecord startedClassRecord = classService.startClass(id);
+        return new ResponseEntity<>(startedClassRecord, HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}/finish")
+    public ResponseEntity<ClassRecord> finishClass(@PathVariable Long id) {
+        ClassRecord finishedClassRecord = classService.finishClass(id);
+        return new ResponseEntity<>(finishedClassRecord, HttpStatus.OK);
     }
 
 

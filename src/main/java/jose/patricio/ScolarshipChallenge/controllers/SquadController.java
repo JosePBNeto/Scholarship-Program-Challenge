@@ -1,6 +1,6 @@
 package jose.patricio.ScolarshipChallenge.controllers;
 
-import jose.patricio.ScolarshipChallenge.dtos.ClassRecord;
+import jakarta.validation.Valid;
 import jose.patricio.ScolarshipChallenge.dtos.SquadRecord;
 import jose.patricio.ScolarshipChallenge.services.SquadService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/squads")
+@RequestMapping("/v1/squads")
 public class SquadController {
 
 
@@ -25,8 +25,7 @@ public class SquadController {
     }
 
     @PostMapping
-    public ResponseEntity<SquadRecord> postCar(@RequestBody SquadRecord squadRecord) {
-        System.out.println(squadRecord);
+    public ResponseEntity<SquadRecord> postCar(@Valid @RequestBody SquadRecord squadRecord) {
         return ResponseEntity.created(null).body(squadService.createSquad(squadRecord));
     }
     @GetMapping("/{id}")

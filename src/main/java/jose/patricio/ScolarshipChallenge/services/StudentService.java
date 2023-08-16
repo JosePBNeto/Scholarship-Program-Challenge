@@ -1,8 +1,6 @@
 package jose.patricio.ScolarshipChallenge.services;
 
-import jose.patricio.ScolarshipChallenge.dtos.ClassRecord;
 import jose.patricio.ScolarshipChallenge.dtos.StudentRecord;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 

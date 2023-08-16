@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "class-organizers")
+@Table(name = "class_organizers")
 public class ClassOrganizersEntity {
     @Id
     @ManyToOne
