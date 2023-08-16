@@ -104,7 +104,8 @@ public class ClassServiceImpl implements ClassService {
         }
 
         if (existingClassEntity.getStudentEntities().size() < 15 || existingClassEntity.getStudentEntities().size() > 30) {
-            throw new ClassArgumentException("Number of students must be between 15 and 30 to start the class.");
+            throw new ClassArgumentException(
+                    "Number of students must be between 15 and 30 to start the class. Current: " + existingClassEntity.getStudentEntities().size());
         }
 
         validateIfHasAllOrganizersNeeded(existingClassEntity.getOrganizers());

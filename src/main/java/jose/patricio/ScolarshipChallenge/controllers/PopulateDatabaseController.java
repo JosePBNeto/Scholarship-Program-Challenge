@@ -75,7 +75,7 @@ public class PopulateDatabaseController {
                 .orElseThrow(() -> new IdNotFoundException("Class Id not Found"));
 
         if (existingClassEntity.getStudentEntities().size() + number > 30 && number > 0) {
-            throw new ClassArgumentException("Max of 30 students in a class");
+            throw new ClassArgumentException("Max of 30 students in a class. Current: " + existingClassEntity.getStudentEntities().size());
         }
 
         try {
