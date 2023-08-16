@@ -1,14 +1,13 @@
-# Scholarship-Program-Challenge
-CHALLENGE WEEK VIII - Spring Boot - Back-End Journey | AWS
+# Scholarship-Program
 
 ### Description:
 The Scholarship program is a REST API in a Spring Boot application that provides endpoints for managing a scholarship program. 
 It allows you to perform operations such as creating, updating, deleting, and retrieving class, organizer, student and squads
 
 ### Prerequisites
-Java JDK (17 or higher)
-Maven
-MySQL Database with "db_scholarship" name
+Java JDK (17 or higher) <br />
+Maven <br />
+MySQL Database with "db_scholarship" name <br />
 
 ### How to run the Application
 1. Clone Repository from github
